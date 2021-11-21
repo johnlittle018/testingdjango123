@@ -32,3 +32,8 @@ Allows you to run a python shell in anaconda terminal
  for creating admin useres that can use the admin sight
  py manage.py createsuperuser
  
+
+
+    Good page to find documentation
+ https://docs.djangoproject.com/en/3.2/genindex/
+
