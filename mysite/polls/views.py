@@ -36,6 +36,18 @@ class DetailView(generic.DetailView):
         """
         return Question.objects.filter(pub_date__lte = timezone.now())
 
+'''
+def detail(request, question_id):
+
+    try:  # try allows the program to keep going with a error
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist: ## if statment analisysing above attempt
+        raise Http404("Question does not exist")
+    return render(request, 'polls/j.html', {'question': question})
+
+'''
+
+
 
 class ResultsView(generic.DetailView):
     model = Question
