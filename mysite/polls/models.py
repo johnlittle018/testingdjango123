@@ -5,32 +5,54 @@ from django.utils import timezone
 
 # Create your models here.
 
+
+
+
+class reminder():
+    Time = models.CharField(max_length=200) #### fix this datatype later
+
+
+class Patient():
+    name = models.CharField(max_length=200)
+    username = models.CharField(max_length=200)
+    password = models.CharField(max_length=200)
+    reminders = models.ForeignKey(reminder, on_delete=models.CASCADE) ## Right now this is an error. 
+
+
+
+
+class User(models.Model):
+    clearance = models.IntegerField(default=0) ### needs to be maped per patient
+    patients = models.ForeignKey(Patient, on_delete=models.CASCADE) ## Right now this is an error. 
+    name = models.CharField(max_length=200)
+    username = models.CharField(max_length=200)
+    password = models.CharField(max_length=200)
+
+
+
+
+
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField("Date Published")
+    discription = models.CharField(max_length=200)
+    picture = models.CharField(max_length=200) #File path
+    a1 = models.CharField(max_length=200)
+    a2 = models.CharField(max_length=200)
+    a3 = models.CharField(max_length=200)
+    a4 = models.CharField(max_length=200)
+    answer = models.IntegerField(default=0) 
+    lastSubAnswer = models.IntegerField(default=0) 
 
-    # needed for pretty printout
-    def __str__(self):
-        return self.question_text
-    
-    # def was_published_recently(self):
-    #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-    
-    @admin.display(
-        boolean=True,
-        ordering='pub_date',
-        description='Published recently?',
-    )
-    
-    def was_published_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+class results():
+    ## relation between a quize and its compleation time. 
+    ## stored quize
+    patient = models.ForeignKey(User, on_delete=models.CASCADE)
+    numCorrect = models.IntegerField(default=0) 
+    totalQuestions = models.IntegerField(default=0) 
+    pass
 
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.choice_text
+class Quiz(models.Model):
+    # array of questions
+    patient = models.ForeignKey(User, on_delete=models.CASCADE)
+    pass 
